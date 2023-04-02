@@ -58,7 +58,8 @@ function loadObjects() {
 
   const loader = new GLTFLoader();
   loader.load(
-    "./resources/models/WVCake2023.glb",
+    // "./resources/models/WVCake2023.glb",
+    "./WVCake2023.glb",
     function (gltf) {
       scene.add(gltf.scene);
       lightScene();
