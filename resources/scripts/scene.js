@@ -5,8 +5,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 export { run };
 
 // setup scene, camera, and renderer.
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
@@ -14,7 +14,7 @@ let camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(3, 2, 3);
 
-let renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 
 // shadowmap type: needed?
 renderer.shadowMap.enabled = true;
@@ -26,7 +26,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // setup controls
-let controls = new OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.autoRotate = true;
 controls.autoRotateSpeed = 0.5;
 
@@ -37,8 +37,8 @@ let candleFlame2 = {};
 let cube = {};
 
 // light
-let candleColor = 0xe7e06d;
-let light = new THREE.AmbientLight(candleColor);
+const candleColor = 0xe7e06d;
+const light = new THREE.AmbientLight(candleColor);
 light.intensity = 0.1;
 scene.add(light);
 
@@ -52,11 +52,11 @@ function run() {
 }
 
 function loadObjects() {
-  let geometry = new THREE.BoxGeometry();
-  let material = new THREE.MeshStandardMaterial();
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshStandardMaterial();
   cube = new THREE.Mesh(geometry, material);
 
-  let loader = new GLTFLoader();
+  const loader = new GLTFLoader();
   loader.load(
     "./resources/models/WVCake2023.glb",
     function (gltf) {
@@ -65,7 +65,7 @@ function loadObjects() {
       animate();
     },
     function (xhr) {
-      let progress = (xhr.loaded / xhr.total) * 100;
+      const progress = (xhr.loaded / xhr.total) * 100;
       // loading.
     },
     function (error) {
@@ -78,7 +78,7 @@ function lightScene() {
   candleFlame = scene.getObjectByName("CandleFlame1", true);
   candleFlame2 = scene.getObjectByName("CandleFlame2", true);
 
-  let material = new THREE.MeshStandardMaterial();
+  const material = new THREE.MeshStandardMaterial();
   material.emissive = new THREE.Color(0xe7e06d);
   material.emissiveIntensity = 1;
   material.transparent = true;
@@ -87,12 +87,12 @@ function lightScene() {
   candleFlame.material = material;
   candleFlame2.material = material;
 
-  let light = new THREE.PointLight(candleColor, 0.5, 100);
+  const light = new THREE.PointLight(candleColor, 0.5, 100);
   light.castShadow = true;
   light.shadow.radius = 10;
   light.position.set(0, 3, 0);
 
-  let light2 = new THREE.PointLight(candleColor, 0.5, 100);
+  const light2 = new THREE.PointLight(candleColor, 0.5, 100);
   light2.castShadow = true;
   light2.shadow.radius = 10;
   light2.position.set(0, 3, 0);
@@ -103,29 +103,44 @@ function lightScene() {
 
   candleFlame2.add(light2);
 
-  let cakeBody = scene.getObjectByName("SimplifiedWV001", true);
+  const cakeBody = scene.getObjectByName("SimplifiedWV001", true);
   cakeBody.receiveShadow = true;
 
   scene.getObjectByName("Layer1001", true).receiveShadow = true;
 
-  let num3 = scene.getObjectByName("FirstNumber");
+  const num3 = scene.getObjectByName("FirstNumber");
   //   num3.castShadow = true;
   //   num3.receiveShadow = true;
 
-  let num4 = scene.getObjectByName("SecondNumber");
+  const num4 = scene.getObjectByName("SecondNumber");
   //   num4.castShadow = true;
   //   num4.receiveShadow = true;
+
+  const redGlowMaterial = new THREE.MeshLambertMaterial({ emissive: 0xff0000 });
+  const outline1 = scene.getObjectByName("ThreeOutline002");
+  outline1.material = redGlowMaterial;
+
+  [
+    "ThreeOutline002",
+    "ThreeOutline003",
+    "SevenOutline002",
+    "SevenOutline003",
+  ].forEach((mesh) => {
+    scene.getObjectByName(mesh).material = redGlowMaterial;
+  });
+
+  console.log("outline1", outline1);
 }
 
-let clock = new THREE.Clock();
+const clock = new THREE.Clock();
 
 // animation handler.
 function animate() {
   requestAnimationFrame(animate);
 
-  let elapsed = clock.getElapsedTime();
+  const elapsed = clock.getElapsedTime();
 
-  let mult = 0.1;
+  const mult = 0.1;
 
   candleFlame.rotation.x = mult * Math.sin(elapsed * 2);
   candleFlame.rotation.y = mult * Math.sin(elapsed * 2);
@@ -140,8 +155,8 @@ function animate() {
 // update renderer size and camera projection matrix when the window is resized to keep everything proportionate
 // courtesy https://stackoverflow.com/a/20434960/5511776
 function onWindowResize() {
-  let w = window.innerWidth;
-  let h = window.innerHeight;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
 
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
