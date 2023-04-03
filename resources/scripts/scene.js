@@ -36,6 +36,8 @@ let candleFlame2 = {};
 
 let cube = {};
 
+let certBadge = null;
+
 // light
 const candleColor = 0xe7e06d;
 const light = new THREE.AmbientLight(candleColor);
@@ -132,6 +134,8 @@ function lightScene() {
   // flagpole.receiveShadow = true;
   flagpole.castShadow = true;
 
+  certBadge = scene.getObjectByName("aws-da");
+
   [
     "ThreeOutline002",
     "ThreeOutline003",
@@ -159,6 +163,10 @@ function animate() {
 
   candleFlame2.rotation.x = -mult * Math.sin(5 + elapsed * 2);
   candleFlame2.rotation.y = -mult * Math.sin(5 + elapsed * 2);
+
+  certBadge.rotation.y = elapsed;
+  certBadge.rotation.x = -mult * Math.sin(5 + elapsed * 2);
+  certBadge.rotation.z = -mult * Math.sin(5 + elapsed * 2);
 
   renderer.render(scene, camera);
   controls.update();
