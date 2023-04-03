@@ -110,16 +110,27 @@ function lightScene() {
   scene.getObjectByName("Layer1001", true).receiveShadow = true;
 
   const num3 = scene.getObjectByName("FirstNumber");
-  //   num3.castShadow = true;
+  num3.castShadow = true;
   //   num3.receiveShadow = true;
 
   const num4 = scene.getObjectByName("SecondNumber");
-  //   num4.castShadow = true;
+  num4.castShadow = true;
   //   num4.receiveShadow = true;
 
   const redGlowMaterial = new THREE.MeshLambertMaterial({ emissive: 0xff0000 });
   const outline1 = scene.getObjectByName("ThreeOutline002");
   outline1.material = redGlowMaterial;
+
+  const flag = scene.getObjectByName("CNMI-Flag");
+  // flag.receiveShadow = true;
+  flag.castShadow = true;
+  // flag.material = new THREE.MeshLambertMaterial({
+  //   emissive: 0xff0000,
+  // });
+
+  const flagpole = scene.getObjectByName("Flagpole");
+  // flagpole.receiveShadow = true;
+  flagpole.castShadow = true;
 
   [
     "ThreeOutline002",
