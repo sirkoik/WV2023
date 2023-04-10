@@ -43,10 +43,12 @@ let cube = {};
 let certBadge = null;
 let flag = null;
 
+let glowColor, redGlowMaterial;
+
 // light
 const candleColor = 0xe7e06d;
 const light = new THREE.AmbientLight(candleColor);
-light.intensity = 0.1;
+light.intensity = 0.2;
 scene.add(light);
 
 // helper
@@ -70,7 +72,7 @@ function loadObjects() {
     function (gltf) {
       scene.add(gltf.scene);
       lightScene();
-      loadEnvMap();
+      // loadEnvMap();
       animate();
     },
     function (xhr) {
@@ -113,6 +115,9 @@ function lightScene() {
   light3.shadow.radius = 10;
   light3.position.set(0, 3, 0);
 
+  // const flagLight = new THREE.PointLight(candleColor, 1, 5);
+  const flagLight = new THREE.PointLight(candleColor, 1, 5);
+
   const certLight = new THREE.PointLight(candleColor, 1, 5);
 
   const certLight2 = new THREE.PointLight(candleColor, 1, 5);
@@ -120,6 +125,7 @@ function lightScene() {
   // light3.shadow.radius = 10;
   certLight.position.set(0, 0, 0.2);
   certLight2.position.set(0, 0, -0.2);
+  flagLight.position.set(0, -0.2, 0);
 
   //light2.add(cube);
 
@@ -142,10 +148,15 @@ function lightScene() {
   num4.castShadow = true;
   //   num4.receiveShadow = true;
 
-  const redGlowMaterial = new THREE.MeshLambertMaterial({ emissive: 0xff0000 });
+  glowColor = new THREE.Color();
+  redGlowMaterial = new THREE.MeshLambertMaterial({
+    emissive: glowColor,
+  });
+  redGlowMaterial.needsUpdate = true;
   const outline1 = scene.getObjectByName("ThreeOutline002");
   outline1.material = redGlowMaterial;
 
+  // TODO add flag light
   flag = scene.getObjectByName("CNMI-Flag");
   // flag.receiveShadow = true;
   flag.castShadow = true;
@@ -157,6 +168,8 @@ function lightScene() {
   // flagpole.receiveShadow = true;
   flagpole.castShadow = true;
 
+  flag.add(flagLight);
+
   certBadge = scene.getObjectByName("aws-da");
   const certBadgeMesh = scene.getObjectByName("aws-da-mesh");
 
@@ -165,7 +178,7 @@ function lightScene() {
   certBadge.add(certLight);
   certBadge.add(certLight2);
 
-  // certLight2.add(new THREE.AxesHelper(10));
+  // flagLight.add(new THREE.AxesHelper(10));
 
   // certBadgeMesh.material.emissive = new THREE.Color(0x0000ff);
   // certBadgeMesh.material.emissiveIntensity = 0.2;
@@ -228,6 +241,10 @@ function animate() {
 
   candleFlame3.rotation.x = -mult * Math.sin(5 + elapsed * 2);
   candleFlame3.rotation.y = -mult * Math.sin(5 + elapsed * 2);
+
+  // console.log(elapsed / 10);
+  glowColor.setHSL((elapsed / 10) % 1, 0.5, 0.5, THREE.Color);
+  redGlowMaterial.emissive = glowColor;
 
   /*  certBadge.rotation.y = elapsed;
   certBadge.rotation.x = -mult * Math.sin(5 + elapsed * 2);
