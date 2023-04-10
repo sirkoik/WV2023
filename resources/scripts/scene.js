@@ -57,7 +57,7 @@ const axesHelper = new THREE.AxesHelper(10);
 
 function run() {
   loadObjects();
-  console.log(scene);
+  // console.log(scene);
 }
 
 function loadObjects() {
@@ -116,7 +116,8 @@ function lightScene() {
   light3.position.set(0, 3, 0);
 
   // const flagLight = new THREE.PointLight(candleColor, 1, 5);
-  const flagLight = new THREE.PointLight(candleColor, 1, 5);
+  const flagLight = new THREE.PointLight(candleColor, 0.5, 5);
+  const flagLight2 = new THREE.PointLight(candleColor, 1, 5);
 
   const certLight = new THREE.PointLight(candleColor, 1, 5);
 
@@ -125,7 +126,8 @@ function lightScene() {
   // light3.shadow.radius = 10;
   certLight.position.set(0, 0, 0.2);
   certLight2.position.set(0, 0, -0.2);
-  flagLight.position.set(0, -0.2, 0);
+  flagLight.position.set(0, 0, 0.2);
+  flagLight2.position.set(0, 0, -0.2);
 
   //light2.add(cube);
 
@@ -169,6 +171,7 @@ function lightScene() {
   flagpole.castShadow = true;
 
   flag.add(flagLight);
+  flag.add(flagLight2);
 
   certBadge = scene.getObjectByName("aws-da");
   const certBadgeMesh = scene.getObjectByName("aws-da-mesh");
@@ -178,7 +181,7 @@ function lightScene() {
   certBadge.add(certLight);
   certBadge.add(certLight2);
 
-  // flagLight.add(new THREE.AxesHelper(10));
+  // flagLight2.add(new THREE.AxesHelper(10));
 
   // certBadgeMesh.material.emissive = new THREE.Color(0x0000ff);
   // certBadgeMesh.material.emissiveIntensity = 0.2;
@@ -192,7 +195,7 @@ function lightScene() {
     scene.getObjectByName(mesh).material = redGlowMaterial;
   });
 
-  console.log("outline1", outline1);
+  // console.log("outline1", outline1);
 }
 
 function loadEnvMap() {
